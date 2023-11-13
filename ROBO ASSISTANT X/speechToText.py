@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import sys
+import os
 
 # Redirect standard error to null
 sys.stderr = open('/dev/null', 'w')
@@ -35,6 +36,7 @@ while True:
                 r.dynamic_enery_threshold = True
                 r.pause_threshold=1.2
                 
+                os.system('cls')
                 print("Say something: ")
                 audio = r.listen(source)
                 #audio = r.listen(source,10)
