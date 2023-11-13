@@ -39,13 +39,13 @@ def stop():
     GPIO.output(IN4, GPIO.LOW)
 
 def move_forward(speed):
-    textToSpeech("Moving forward at speed " + str(speed))
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
     pwm_a.start(speed)
     pwm_b.start(speed)
+    textToSpeech("Moving forward at speed " + str(speed))
 
 def move_backward(speed):
     GPIO.output(IN1, GPIO.LOW)
