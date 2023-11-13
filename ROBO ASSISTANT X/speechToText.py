@@ -1,4 +1,8 @@
 import speech_recognition as sr
+import sys
+
+# Redirect standard error to null
+sys.stderr = open('/dev/null', 'w')
 
 r = sr.Recognizer()
 #mic = sr.Microphone(chunk_size=8192)
