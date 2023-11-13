@@ -54,6 +54,8 @@ def move_backward(speed):
     GPIO.output(IN4, GPIO.HIGH)
     pwm_a.start(speed)
     pwm_b.start(speed)
+    textToSpeech("Moving backward at speed " + str(speed))
+
 
 def turn_right(speed):
     GPIO.output(IN1, GPIO.HIGH)
@@ -62,6 +64,8 @@ def turn_right(speed):
     GPIO.output(IN4, GPIO.HIGH)
     pwm_a.start(speed)
     pwm_b.start(speed)
+    textToSpeech("Turning Right")
+
 
 def turn_left(speed):
     GPIO.output(IN1, GPIO.LOW)
@@ -70,6 +74,8 @@ def turn_left(speed):
     GPIO.output(IN4, GPIO.LOW)
     pwm_a.start(speed)
     pwm_b.start(speed)
+    textToSpeech("Turning Left")
+
     
 # Add other movement functions (move_backward, turn_right, turn_left) here
 
