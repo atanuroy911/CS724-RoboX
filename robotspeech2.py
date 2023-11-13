@@ -67,12 +67,12 @@ def turn_left(speed):
     GPIO.output(IN4, GPIO.LOW)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    
+
 # Add other movement functions (move_backward, turn_right, turn_left) here
 
 def voice_control():
     mic.recordWhileActive()  # Record audio while active
-    text = mic.getText('sounds.wav')  # Use Google Speech Recognition to convert
+    text = mic.getText('./audio/sounds.wav')  # Use Google Speech Recognition to convert
     print("You said:", text)
 
     if "forward" in text:
