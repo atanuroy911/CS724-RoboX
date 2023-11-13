@@ -5,6 +5,8 @@ import speech_recognition as sr
 import sounddevice as sd
 import numpy as np
 from audio import audio  # Import your audio class
+from textToSpeech import textToSpeech
+
 
 # Define GPIO pins
 IN1 = 17
@@ -37,6 +39,7 @@ def stop():
     GPIO.output(IN4, GPIO.LOW)
 
 def move_forward(speed):
+    textToSpeech("Moving forward at speed " + str(speed))
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
