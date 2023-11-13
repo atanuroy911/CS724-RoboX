@@ -28,7 +28,7 @@ pwm_a = GPIO.PWM(ENA, 1000)  # 1000 Hz frequency
 pwm_b = GPIO.PWM(ENB, 1000)  # 1000 Hz frequency
 
 # Initialize audio class
-mic = audio(path='/path/to/your/audio/files/')  # Change the path accordingly
+mic = audio(path='./audio/')  # Change the path accordingly
 
 def stop():
     GPIO.output(IN1, GPIO.LOW)
@@ -67,12 +67,12 @@ def turn_left(speed):
     GPIO.output(IN4, GPIO.LOW)
     pwm_a.start(speed)
     pwm_b.start(speed)
-
+    
 # Add other movement functions (move_backward, turn_right, turn_left) here
 
 def voice_control():
     mic.recordWhileActive()  # Record audio while active
-    text = mic.getText('./audio/sounds.wav')  # Use Google Speech Recognition to convert
+    text = mic.getText('sounds.wav')  # Use Google Speech Recognition to convert
     print("You said:", text)
 
     if "forward" in text:
