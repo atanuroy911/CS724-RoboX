@@ -25,7 +25,7 @@ class audio():
                     file_exists += paths[i] + "/"
                 except:
                     file_exists += paths[i] + "/"
-        mic.threshold = 0
+        mic.threshold = 4
 
     def recordAudio(mic, time):
         recording = sd.rec(int(time * mic.fs), samplerate=mic.fs, channels=1)
