@@ -36,7 +36,7 @@ while True:
                 r.dynamic_enery_threshold = True
                 r.pause_threshold=1.2
                 
-                os.system('cls')
+                os.system('clear')
                 print("Say something: ")
                 audio = r.listen(source)
                 #audio = r.listen(source,10)
