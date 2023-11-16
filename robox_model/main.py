@@ -29,7 +29,7 @@ def main():
         #answer = predictAnswer(initializer_obj.labelEncoder,initializer_obj.tokenizer,
                                  #initializer_obj.interpreter,initializer_obj.responses,user_query)
         # sending user input to predict chatbot response using tflite
-        answer = predictResponse(initializer_obj.labelEncoder,initializer_obj.tokenizer,
+        answer = predictAnswer(initializer_obj.labelEncoder,initializer_obj.tokenizer,
                                  initializer_obj.interpreter,initializer_obj.responses,user_query)
         # converting the predicted answer into voice
         textToSpeech(answer)
