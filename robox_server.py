@@ -2,10 +2,9 @@ from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
 
 # import all the userdefind packages
-from initializer import Initializer
-from chatBots import predictResponse
+from init2 import initialize
 from textToSpeech import textToSpeech
-from chatBot import predictAnswer
+from predict2 import predictAnswer
 
 import threading
 import time
@@ -46,8 +45,8 @@ words_to_exit = ["end", "quit", "terminate", "bye", "exit"]
 # Model Initialize
 print("inside main function")
 # call the initializer function through the object
-initializer_obj = Initializer()
-initializer_obj.initialize()
+tokenizer, labelEncoder, responses = initialize()
+
 
 # text to speech output to say all required fields has been initialised
 # textToSpeech("Initilization of Robo assistant x is completed")
@@ -231,8 +230,8 @@ def prompt(user_query):
     # answer = predictAnswer(initializer_obj.labelEncoder,initializer_obj.tokenizer,
         # initializer_obj.interpreter,initializer_obj.responses,user_query)
     # sending user input to predict chatbot response using tflite
-    answer = predictResponse(initializer_obj.labelEncoder, initializer_obj.tokenizer,
-                             initializer_obj.interpreter, initializer_obj.responses, user_query)
+    answer = predictAnswer(tokenizer, labelEncoder, responses, user_query)
+
     # converting the predicted answer into voice
     textToSpeech(answer)
 
