@@ -143,6 +143,7 @@ def delayed_prompt(user_query):
     prompt(user_query)
 
 def stop():
+    stop_event.set()  # Set the event flag to signal the thread to stop
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
@@ -150,16 +151,46 @@ def stop():
     textToSpeech("Stopping")
 
 
+# Use threading event for signaling
+stop_event = threading.Event()
+
+def move_forward_with_distance_check(speed, min_distance=30):
+    stop_event.clear()  # Clear the event flag
+    while not stop_event.is_set():
+        # Check the distance
+        dist = distance()
+
+        if dist < min_distance:
+            stop()
+            # Choose a direction to turn (left or right)
+            turn_left(50)
+            # Alternatively, you can use turn_right(50) based on your requirement
+            time.sleep(1)  # Adjust the duration based on your needs
+            stop()
+            move_forward(speed)
+        else:
+            # Continue moving forward
+            GPIO.output(IN1, GPIO.HIGH)
+            GPIO.output(IN2, GPIO.LOW)
+            GPIO.output(IN3, GPIO.HIGH)
+            GPIO.output(IN4, GPIO.LOW)
+            pwm_a.start(speed)
+            pwm_b.start(speed)
+            textToSpeech("Moving forward at speed " + str(speed))
+
+        # Introduce a delay between distance checks (adjust the duration based on your needs)
+        time.sleep(0.1)
+
+    # Reset the event flag when the thread stops
+    stop_event.clear()
+
+# Modify your existing move_forward function to call move_forward_with_distance_check
 def move_forward(speed):
-    GPIO.output(IN1, GPIO.HIGH)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.HIGH)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_a.start(speed)
-    pwm_b.start(speed)
-    textToSpeech("Moving forward at speed " + str(speed))
+    threading.Thread(target=move_forward_with_distance_check, args=(speed,)).start()
+
 
 def move_backward(speed):
+    stop_event.set()  # Set the event flag to signal the thread to stop
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.LOW)
@@ -170,6 +201,7 @@ def move_backward(speed):
 
 
 def turn_right(speed):
+    stop_event.set()  # Set the event flag to signal the thread to stop
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
@@ -180,6 +212,7 @@ def turn_right(speed):
 
 
 def turn_left(speed):
+    stop_event.set()  # Set the event flag to signal the thread to stop
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.HIGH)
