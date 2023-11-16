@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'settings_page.dart';
-import 'package:http/http.dart' as http;
+import 'remote_button.dart';
+import 'microphone_button.dart';
+import 'spoken_text_display.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'server_communication.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -34,6 +37,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       ipAddress = _prefs.getString('ipAddress') ?? '';
       port = _prefs.getInt('port')?.toString() ?? ''; // Use toString() here
+      if (kDebugMode) {
+        print('SHUORER $ipAddress, $port');
+      }
     });
   }
 
@@ -87,19 +93,8 @@ class _HomePageState extends State<HomePage> {
               onLongPressed: _startListeningLongPress,
             ),
             SizedBox(height: 20),
-            // Display the spoken text in a separate RichText widget
-            Container(
-              width: containerWidth,
-              decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  child: RichText(text: _displayedTextSpan),
-                ),
-              ),
-            ),
+            // Display the spoken text using the SpokenTextDisplay widget
+            SpokenTextDisplay(displayedTextSpan: _displayedTextSpan, containerWidth: containerWidth),
           ],
         ),
       ),
@@ -114,7 +109,7 @@ class _HomePageState extends State<HomePage> {
       _speech.listen(
         onResult: (result) {
           // Concatenate the recognized words to the accumulated spoken text
-          spokenText += result.recognizedWords + ' ';
+          spokenText = result.recognizedWords + ' ';
 
           // Update the displayed text with the accumulated spoken text
           setState(() {
@@ -141,21 +136,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
-
-
   Future<void> _sendSpokenTextToServer(String spokenText) async {
-    final url = 'http://$ipAddress:$port/$path'; // Replace with your Flask server URL
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-      body: '{"user_query": "$spokenText"}',
-    );
-
-    if (response.statusCode == 200) {
-      print('Server response: ${response.body}');
-    } else {
-      print('Failed to send data to server. Status code: ${response.statusCode}');
+    try {
+      await ServerCommunication.sendToServer(ipAddress, port, path, spokenText);
+    } catch (e) {
+      print('Error sending data to server: $e');
     }
   }
 
@@ -190,76 +175,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class RemoteButton extends StatelessWidget {
-  final IconData icon;
-  final String text;
-
-  RemoteButton({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        onPressed: () {
-          print('Pressed $text button');
-        },
-        child: Icon(icon),
-      ),
-    );
-  }
-}
-
-class MicrophoneButton extends StatefulWidget {
-  final VoidCallback onPressed;
-  final VoidCallback onReleased;
-  final VoidCallback onLongPressed;
-
-  MicrophoneButton({
-    required this.onPressed,
-    required this.onReleased,
-    required this.onLongPressed,
-  });
-
-  @override
-  _MicrophoneButtonState createState() => _MicrophoneButtonState();
-}
-
-class _MicrophoneButtonState extends State<MicrophoneButton> {
-  bool _isLongPress = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onPressed,
-      onTapUp: (details) {
-        if (_isLongPress) {
-          widget.onReleased();
-          _isLongPress = false;
-        }
-      },
-      onLongPress: () {
-        _isLongPress = true;
-        widget.onLongPressed();
-      },
-      onLongPressEnd: (details) {
-        if (_isLongPress) {
-          widget.onReleased();
-          _isLongPress = false;
-        }
-      },
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.blue,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.mic, size: 44.0, color: Colors.white)],
-        ),
-      ),
-    );
-  }
-}

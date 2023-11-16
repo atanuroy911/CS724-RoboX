@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'package:provider/provider.dart';
+
+import 'app_state.dart'; // Import the file where you defined AppState
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppState(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

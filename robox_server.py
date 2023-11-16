@@ -6,6 +6,10 @@ from chatBots import predictResponse
 from textToSpeech import textToSpeech
 from chatBot import predictAnswer
 
+import threading
+import time
+
+
 app = Flask(__name__)
 
 words_to_exit = ["end", "quit", "terminate", "bye", "exit"]
@@ -20,10 +24,19 @@ initializer_obj.initialize()
 textToSpeech("Initilization of Robo assistant x is completed")
 
 
+# Use a lock to control access to the prompt function
+prompt_lock = threading.Lock()
+
 @app.route('/check_connection')
 def check_connection():
     response_data = {'status': 'success', 'message': 'Connection successful'}
     return jsonify(response_data), 200
+
+@app.route('/control', methods=['POST'])
+def control():
+    data = request.json
+    data = data.get('control')
+    print(data)
 
 
 @app.route('/prompt', methods=['POST'])
@@ -43,12 +56,21 @@ def model_prompt():
                          'message': 'Missing user_query in the request'}
         return jsonify(response_data), 400
 
-    # Call your prompt function with the user's query
-    prompt(user_query)
+    # Use a lock to ensure only one thread can execute the prompt function at a time
+    with prompt_lock:
+        # Call your prompt function with the user's query after a delay
+        threading.Thread(target=delayed_prompt, args=(user_query,)).start()
 
     response_data = {'status': 'success',
                      'message': 'Query processed successfully'}
     return jsonify(response_data), 200
+
+def delayed_prompt(user_query):
+    # Introduce a delay (adjust the duration based on your needs)
+    time.sleep(2)
+
+    # Execute the prompt function
+    prompt(user_query)
 
 def prompt(user_query):
 

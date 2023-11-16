@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'home_page.dart';
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -99,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
         _log('Connection successful', Colors.green); // Colored text for success
         _log('Response:');
         _log(formatJson(response.body)); // Beautifully formatted JSON
-        _promptToSaveValues();
+        await _promptToSaveValues();
       } else {
         _log('Connection unsuccessful', Colors.red); // Colored text for failure
         _log('Response: ${response.body}');
@@ -158,6 +160,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
     if (shouldSave ?? false) {
       _saveValues();
+      // Use Navigator.pushReplacement to reload the HomePage with new values
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     }
   }
 

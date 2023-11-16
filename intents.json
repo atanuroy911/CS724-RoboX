@@ -66,7 +66,7 @@
       "who designed you"
    ],
    "responses": [
-      "IIT Kanpur Students (Deepen Shrestha, Ujwal Jyot Panda, Atanu Shuvam Roy, Komal Yadav, Arpit Kumar, Akash Shriwas and Hritik Lal)"
+      "IIT Kanpur Student (Deepen Shrestha, and 6 others)"
    ],
    "context_set": ""
 },
@@ -211,7 +211,7 @@
       "fees for non-Ac room for boys"
    ],
    "responses": [
-      "For Fee detail visit DOSA webpage of the IITK official Website."
+      "For Fee detail visit <a target=\"_blank\" href=\"https://www.iitk.ac.in/dosa/data/Tentative_Fee_Structures_for_Academic_Year_2023-23-13-07-23.pdf\"> here</a>"
    ],
    "context_set": ""
 },
@@ -234,7 +234,7 @@
       "location"
    ],
    "responses": [
-      "Please use Google Maps, search for IITK over there."
+      "<a target=\"_blank\" href=\"https://www.google.com/maps?client=firefox-b-d&q=iit+kanpur+location&um=1&ie=UTF-8&sa=X&ved=2ahUKEwiT4t2py4aCAxXsTmwGHaM6Au0Q_AUoAXoECAEQAw\"> here</a>"
    ],
    "context_set": ""
 },
@@ -265,7 +265,7 @@
       "distance between hostel and college"
    ],
    "responses": [
-      "For hostel detail, look for accomodation page on the IITK site"
+      "For hostel detail visit <a target=\"_blank\" href=\"https://www.iitk.ac.in/vh/accommodation-facility\"> here</a>"
    ],
    "context_set": ""
 },
@@ -285,7 +285,7 @@
       "what about events"
    ],
    "responses": [
-      "For event detail visit news-events site of IITK"
+      "For event detail visit <a target=\"_blank\" href=\"https://www.iitk.ac.in/me/news-events/events\"> here</a>"
    ],
    "context_set": ""
 },
@@ -307,7 +307,7 @@
       "documents needed"
    ],
    "responses": [
-      "To know more about document required visit the counselling page of IITK site."
+      "To know more about document required visit <a target=\"_blank\" href=\"https://www.iitk.ac.in/counsel/new-ug-information.php\"> here</a>"
    ],
    "context_set": ""
 },
@@ -330,7 +330,7 @@
       "how many libraries"
    ],
    "responses": [
-      "There is one huge and spacious library.timings are 8am to 6pm."
+      "There is one huge and spacious library.timings are 8am to 6pm and for more visit <a target=\"blank\" href=\"https://pkklib.iitk.ac.in/\">here</a>"
    ],
    "context_set": ""
 },
@@ -396,7 +396,7 @@
       "companies"
    ],
    "responses": [
-      "To know about placement visit the official IITK SPO site."
+      "To know about placement visit <a target=\"_blank\" href=\"https://www.iitk.ac.in/new/placement-season-2022-23\">here</a>"
    ],
    "context_set": ""
 },
@@ -466,7 +466,7 @@
       "admission process"
    ],
    "responses": [
-      "Application can also be submitted online through the Unversity's website"
+      "Application can also be submitted online through the Unversity's  <a target=\"_blank\" href=\"https://www.iitk.ac.in/doaa/admission-procedure\">website</a>"
    ],
    "context_set": ""
 },
@@ -599,7 +599,7 @@
       "please provide sports and games information"
    ],
    "responses": [
-      "Our university encourages all-round development of students and hence provides sports facilities in the campus."
+      "Our university encourages all-round development of students and hence provides sports facilities in the campus. For more details visit<a target=\"_blank\" href=/\"(LINK IF HAVE)\">here</a>"
    ],
    "context_set": ""
 },
@@ -1857,62 +1857,6 @@
       "responses": [
       "Self-organizing networks in sensor networks refer to systems where sensor nodes autonomously organize, configure, and optimize their operation. They adapt to changing network conditions and self-configure, reducing the need for manual intervention. Self-organizing networks are advantageous in applications like disaster response, where network setup and maintenance may be challenging."
       ]
-      },
-      {
-         "tag": "forward",
-         "input": [
-            "Move forward",
-            "Go forward",
-            "Forward",
-            "Go ahead",
-            "Advance",
-            "Proceed"
-         ],
-         "responses": [
-            "Ok, moving forward"
-         ]
-      },
-      {
-         "tag": "backward",
-         "input": [
-            "Move backward",
-            "Go backward",
-            "Backward",
-            "Go back",
-            "Reverse",
-            "Retreat"
-         ],
-         "responses": [
-            "Ok, moving backward"
-         ]
-      },
-      {
-         "tag": "left",
-         "input": [
-            "Turn left",
-            "Go left",
-            "Left",
-            "Take a left",
-            "Leftward",
-            "Left turn"
-         ],
-         "responses": [
-            "Ok, turning left"
-         ]
-      },
-      {
-         "tag": "right",
-         "input": [
-            "Turn right",
-            "Go right",
-            "Right",
-            "Take a right",
-            "Rightward",
-            "Right turn"
-         ],
-         "responses": [
-            "Ok, turning right"
-         ]
-      } 
+      }
 ]
 }

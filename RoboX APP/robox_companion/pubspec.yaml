@@ -41,6 +41,8 @@ dependencies:
   shared_preferences: ^2.2.2
   navigation_drawer_menu: ^1.0.0-beta
   speech_to_text: ^6.4.1
+  provider: ^6.1.1
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
