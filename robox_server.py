@@ -84,38 +84,6 @@ def distance():
 
     return distance
 
-def check_distance_routine():
-    initial_speed = 50
-    try:
-        while True:
-            dist = distance()
-            print("Measured Distance = %.1f cm" % dist)
-
-            if dist < 30:
-                stop()
-                time.sleep(1)  # Pause for 1 second
-
-                # Change direction and move backward
-                move_backward(initial_speed)
-                time.sleep(1)  # Pause for 1 second
-
-                # Change direction and turn right (you can customize the direction)
-                turn_right(initial_speed)
-                time.sleep(1)  # Pause for 1 second
-
-                # Change direction back to forward
-                move_forward(initial_speed)
-
-            time.sleep(1)
-
-    except KeyboardInterrupt:
-        print("Measurement stopped by User")
-        GPIO.cleanup()
-
-def activate_job():
-    thread = threading.Thread(target=check_distance_routine)
-    thread.start()
-
 @app.route('/check_connection')
 def check_connection():
     response_data = {'status': 'success', 'message': 'Connection successful'}
