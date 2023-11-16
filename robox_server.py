@@ -96,13 +96,13 @@ def control():
     user_query = data.get('user_query')
     print(user_query)
     if user_query == "Up":
-        move_forward(100)
+        move_forward(150)
     elif user_query == "Down":
-        move_backward(100)
+        move_backward(150)
     elif user_query == "Left":
-        turn_left(50)
+        turn_right(150)
     elif user_query == "Right":
-        turn_right(50)
+        turn_left(150)
     elif user_query == "OK":
         stop()
     response_data = {'status': 'success', 'message': f'Received ${data}'}
@@ -235,13 +235,13 @@ def prompt(user_query):
     answer = predictAnswer(tokenizer, labelEncoder, responses, user_query)
     
     if 'forward' in answer :
-        move_forward(100)
+        move_forward(150)
     elif 'backward' in answer :
-        move_backward(100)
+        move_backward(150)
     elif 'right' in answer :
-        turn_right(50)
+        turn_left(150)
     elif 'left' in answer :
-        turn_left(50)
+        turn_right(150)
     elif 'stop' in answer :
         stop()
 
