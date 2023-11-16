@@ -6,6 +6,9 @@ def textToSpeech(text):
     # -s is passed for speed of speech
     # -g for word gap so that word will be clear
     # -v europe/hr
-    speechCommand = "espeak -a 200 -p 20 -s 125 -v en+f3 '%s'" % (text)
+    speechCommand = "espeak -v en-us+f3 -s 150 '%s'" % (text)
     print("speech command---> ",speechCommand)
     os.system(speechCommand)
+
+if __name__ == "__main__":
+    textToSpeech("hello world")
