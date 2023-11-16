@@ -83,6 +83,7 @@ def distance():
     distance = (TimeElapsed * 34300) / 2
 
     return distance
+
 def check_distance_routine():
     initial_speed = 50
     try:
@@ -231,6 +232,17 @@ def prompt(user_query):
         # initializer_obj.interpreter,initializer_obj.responses,user_query)
     # sending user input to predict chatbot response using tflite
     answer = predictAnswer(tokenizer, labelEncoder, responses, user_query)
+    
+    if 'forward' in answer :
+        move_forward(100)
+    elif 'backward' in answer :
+        move_backward(100)
+    elif 'right' in answer :
+        turn_right(50)
+    elif 'left' in answer :
+        turn_left(50)
+    elif 'stop' in answer :
+        stop()
 
     # converting the predicted answer into voice
     textToSpeech(answer)

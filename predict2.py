@@ -2,7 +2,6 @@
 #from keras.models import load_model
 from tensorflow import keras
 import random
-import pandas as pd
 import string
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences

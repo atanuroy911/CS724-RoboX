@@ -1,12 +1,7 @@
 import tensorflow as tf
-import numpy as np
 import pandas as pd
 import json
 from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional, Input, Flatten
-from tensorflow.keras.models import Model
-from tensorflow.keras.models import Sequential
-import matplotlib.pyplot as plt
 import string
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.sequence import pad_sequences
