@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import RPi.GPIO as GPIO
 
 # import all the userdefind packages
 from initializer import Initializer
@@ -9,6 +10,26 @@ from chatBot import predictAnswer
 import threading
 import time
 
+# Define GPIO pins
+IN1 = 17
+IN2 = 27
+IN3 = 22
+IN4 = 23
+ENA = 18
+ENB = 24
+
+# Set the GPIO mode and setup the pins
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(IN1, GPIO.OUT)
+GPIO.setup(IN2, GPIO.OUT)
+GPIO.setup(IN3, GPIO.OUT)
+GPIO.setup(IN4, GPIO.OUT)
+GPIO.setup(ENA, GPIO.OUT)
+GPIO.setup(ENB, GPIO.OUT)
+
+# Set up PWM for motor speed control
+pwm_a = GPIO.PWM(ENA, 1000)  # 1000 Hz frequency
+pwm_b = GPIO.PWM(ENB, 1000)  # 1000 Hz frequency
 
 app = Flask(__name__)
 
@@ -21,7 +42,9 @@ initializer_obj = Initializer()
 initializer_obj.initialize()
 
 # text to speech output to say all required fields has been initialised
-textToSpeech("Initilization of Robo assistant x is completed")
+# textToSpeech("Initilization of Robo assistant x is completed")
+
+print("Initilization of Robo assistant x is completed")
 
 
 # Use a lock to control access to the prompt function
@@ -35,8 +58,21 @@ def check_connection():
 @app.route('/control', methods=['POST'])
 def control():
     data = request.json
-    data = data.get('control')
-    print(data)
+    user_query = data.get('user_query')
+    print(user_query)
+    if user_query == "Up":
+        move_forward(100)
+    elif user_query == "Down":
+        move_backward(100)
+    elif user_query == "Left":
+        turn_left(50)
+    elif user_query == "Right":
+        turn_right(50)
+    elif user_query == "OK":
+        stop()
+    response_data = {'status': 'success', 'message': f'Received ${data}'}
+    return jsonify(response_data), 200
+
 
 
 @app.route('/prompt', methods=['POST'])
@@ -71,6 +107,50 @@ def delayed_prompt(user_query):
 
     # Execute the prompt function
     prompt(user_query)
+
+def stop():
+    GPIO.output(IN1, GPIO.LOW)
+    GPIO.output(IN2, GPIO.LOW)
+    GPIO.output(IN3, GPIO.LOW)
+    GPIO.output(IN4, GPIO.LOW)
+
+def move_forward(speed):
+    GPIO.output(IN1, GPIO.HIGH)
+    GPIO.output(IN2, GPIO.LOW)
+    GPIO.output(IN3, GPIO.HIGH)
+    GPIO.output(IN4, GPIO.LOW)
+    pwm_a.start(speed)
+    pwm_b.start(speed)
+    textToSpeech("Moving forward at speed " + str(speed))
+
+def move_backward(speed):
+    GPIO.output(IN1, GPIO.LOW)
+    GPIO.output(IN2, GPIO.HIGH)
+    GPIO.output(IN3, GPIO.LOW)
+    GPIO.output(IN4, GPIO.HIGH)
+    pwm_a.start(speed)
+    pwm_b.start(speed)
+    textToSpeech("Moving backward at speed " + str(speed))
+
+
+def turn_right(speed):
+    GPIO.output(IN1, GPIO.HIGH)
+    GPIO.output(IN2, GPIO.LOW)
+    GPIO.output(IN3, GPIO.LOW)
+    GPIO.output(IN4, GPIO.HIGH)
+    pwm_a.start(speed)
+    pwm_b.start(speed)
+    textToSpeech("Turning Right")
+
+
+def turn_left(speed):
+    GPIO.output(IN1, GPIO.LOW)
+    GPIO.output(IN2, GPIO.HIGH)
+    GPIO.output(IN3, GPIO.HIGH)
+    GPIO.output(IN4, GPIO.LOW)
+    pwm_a.start(speed)
+    pwm_b.start(speed)
+    textToSpeech("Turning Left")
 
 def prompt(user_query):
 
