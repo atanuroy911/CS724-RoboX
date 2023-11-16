@@ -13,6 +13,8 @@ import time
 GPIO_TRIGGER = 2
 GPIO_ECHO = 3
 
+GPIO.setmode(GPIO.BCM)
+
 # set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
@@ -26,7 +28,6 @@ ENA = 18
 ENB = 24
 
 # Set the GPIO mode and setup the pins
-GPIO.setmode(GPIO.BCM)
 GPIO.setup(IN1, GPIO.OUT)
 GPIO.setup(IN2, GPIO.OUT)
 GPIO.setup(IN3, GPIO.OUT)
