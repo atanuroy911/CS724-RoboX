@@ -112,7 +112,6 @@ def check_distance_routine():
         print("Measurement stopped by User")
         GPIO.cleanup()
 
-@app.before_first_request
 def activate_job():
     thread = threading.Thread(target=check_distance_routine)
     thread.start()
