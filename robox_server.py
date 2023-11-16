@@ -149,14 +149,26 @@ def stop():
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.LOW)
-    textToSpeech("Stopping")
+    # textToSpeech("Stopping")
 
 
 # Use threading event for signaling
 stop_event = threading.Event()
 
+# Additional flag to check if move_forward is in progress
+forward_in_progress = False
+
 def move_forward_with_distance_check(speed, min_distance=30):
+    global forward_in_progress
+
     stop_event.clear()  # Clear the event flag
+
+    # Check if move_forward is already in progress
+    if forward_in_progress:
+        return
+
+    forward_in_progress = True
+
     while not stop_event.is_set():
         # Check the distance
         dist = distance()
@@ -165,8 +177,7 @@ def move_forward_with_distance_check(speed, min_distance=30):
             stop()
             # Choose a direction to turn (left or right)
             turn_left(50)
-            # Alternatively, you can use turn_right(50) based on your requirement
-            time.sleep(1)  # Adjust the duration based on your needs
+            time.sleep(1)
             stop()
             move_forward(speed)
         else:
@@ -176,14 +187,12 @@ def move_forward_with_distance_check(speed, min_distance=30):
             GPIO.output(IN3, GPIO.HIGH)
             GPIO.output(IN4, GPIO.LOW)
             pwm_a.start(speed)
-            pwm_b.start(speed)
-            textToSpeech("Moving forward at speed " + str(speed))
 
-        # Introduce a delay between distance checks (adjust the duration based on your needs)
         time.sleep(0.1)
 
-    # Reset the event flag when the thread stops
+    # Reset the event flag and forward_in_progress flag when the thread stops
     stop_event.clear()
+    forward_in_progress = False
 
 # Modify your existing move_forward function to call move_forward_with_distance_check
 def move_forward(speed):
@@ -198,7 +207,7 @@ def move_backward(speed):
     GPIO.output(IN4, GPIO.HIGH)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    textToSpeech("Moving backward at speed " + str(speed))
+    # textToSpeech("Moving backward at speed " + str(speed))
 
 
 def turn_right(speed):
@@ -209,7 +218,7 @@ def turn_right(speed):
     GPIO.output(IN4, GPIO.HIGH)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    textToSpeech("Turning Right")
+    # textToSpeech("Turning Right")
 
 
 def turn_left(speed):
@@ -220,7 +229,7 @@ def turn_left(speed):
     GPIO.output(IN4, GPIO.LOW)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    textToSpeech("Turning Left")
+    # textToSpeech("Turning Left")
 
 def prompt(user_query):
 
