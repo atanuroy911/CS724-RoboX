@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import 'home_page.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -37,6 +37,17 @@ class _SettingsPageState extends State<SettingsPage> {
     _prefs.setString('ipAddress', _ipController.text);
     _prefs.setInt('port', int.tryParse(_portController.text) ?? 80);
     _prefs.setString('path', _pathController.text);
+
+    // Show a toast message
+    Fluttertoast.showToast(
+      msg: 'Settings saved successfully',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   void _log(String message, [Color? color]) {
@@ -160,13 +171,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
     if (shouldSave ?? false) {
       _saveValues();
-      // Use Navigator.pushReplacement to reload the HomePage with new values
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+
+      // Use Navigator.pop to return to the previous screen (HomePage)
+      Navigator.pop(context);
     }
   }
+
 
   void _clearLog() {
     setState(() {

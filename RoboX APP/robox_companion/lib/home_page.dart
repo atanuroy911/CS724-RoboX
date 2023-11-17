@@ -7,17 +7,21 @@ import 'spoken_text_display.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'server_communication.dart';
+import 'camera_widget.dart'; // Import the camera widget
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
 
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+  final Key cameraKey = UniqueKey(); // Add a unique key
 }
 
 class _HomePageState extends State<HomePage> {
   final stt.SpeechToText _speech = stt.SpeechToText();
   List<TextSpan> _spokenTextSpans = [];
-  late TextSpan _displayedTextSpan = TextSpan(); // New variable to store the displayed rich text
+  late TextSpan _displayedTextSpan = TextSpan();
 
   late SharedPreferences _prefs;
 
@@ -29,14 +33,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _displayedTextSpan = TextSpan();
-    _loadSavedValues(); // Load saved values here
+    _loadSavedValues();
   }
 
   Future<void> _loadSavedValues() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
       ipAddress = _prefs.getString('ipAddress') ?? '';
-      port = _prefs.getInt('port')?.toString() ?? ''; // Use toString() here
+      port = _prefs.getInt('port')?.toString() ?? '';
       if (kDebugMode) {
         print('SHUORER $ipAddress, $port');
       }
@@ -47,55 +51,68 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double containerWidth = MediaQuery.of(context).size.width * 0.95;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Robo X Companion - Home'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RemoteButton(icon: Icons.arrow_upward, text: 'Up'),
-              ],
+    return LiquidPullToRefresh(
+      onRefresh: () async {
+        _loadSavedValues();
+        // Add more logic here if needed
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Robo X Companion - Home'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RemoteButton(icon: Icons.arrow_back, text: 'Left'),
-                RemoteButton(icon: Icons.check, text: 'OK'),
-                RemoteButton(icon: Icons.arrow_forward, text: 'Right'),
-              ],
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                // Add logic to refresh the video feed
+                // For example, you can setState or call a function to refresh the video feed
+              },
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RemoteButton(icon: Icons.arrow_downward, text: 'Down'),
-              ],
-            ),
-            SizedBox(height: 20),
-            MicrophoneButton(
-              onPressed: _startListening,
-              onReleased: _stopListening,
-              onLongPressed: _startListeningLongPress,
-            ),
-            SizedBox(height: 20),
-            // Display the spoken text using the SpokenTextDisplay widget
-            SpokenTextDisplay(displayedTextSpan: _displayedTextSpan, containerWidth: containerWidth),
           ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CameraWidget(videoUrl: 'http://$ipAddress:$port/video_feed'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RemoteButton(icon: Icons.arrow_upward, text: 'Up'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RemoteButton(icon: Icons.arrow_back, text: 'Left'),
+                  RemoteButton(icon: Icons.check, text: 'OK'),
+                  RemoteButton(icon: Icons.arrow_forward, text: 'Right'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RemoteButton(icon: Icons.arrow_downward, text: 'Down'),
+                ],
+              ),
+              SizedBox(height: 20),
+              MicrophoneButton(
+                onPressed: _startListening,
+                onReleased: _stopListening,
+                onLongPressed: _startListeningLongPress,
+              ),
+              SizedBox(height: 20),
+              SpokenTextDisplay(displayedTextSpan: _displayedTextSpan, containerWidth: containerWidth),
+            ],
+          ),
         ),
       ),
     );

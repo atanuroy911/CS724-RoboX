@@ -9,6 +9,7 @@ def textToSpeech(text):
     speechCommand = "espeak -v en-us+f3 -s 150 '%s'" % (text)
     print("speech command---> ",speechCommand)
     os.system(speechCommand)
+    
 
 if __name__ == "__main__":
     textToSpeech("hello world")
