@@ -2,10 +2,10 @@
 
 **Robot Assistant X** is a voice assistant robot developed as a collaborative project. This document provides an overview of the project, including its design, methodology, implementation, and future plans.
 
-<p align="center" width="100">
-  <img src="git-assets/Robo 2.jpg" width="100" />
-  <img src="git-assets/Robo 3.jpg" width="100" />
-  <img src="git-assets/Robo 1.jpg" width="100" />
+<p align="center">
+  <img src="git-assets/Robo 2.jpg" width="32%" />
+  <img src="git-assets/Robo 3.jpg" width="32%" />
+  <img src="git-assets/Robo 1.jpg" width="32%" />
 </p>
 
 ## Overview
@@ -39,9 +39,9 @@ In today's world, where artificial intelligence and robotics are rapidly advanci
 - Established a Flask web server for video streaming and robot control.
 
 <p align="center">
-  <img src="git-assets/App 0.jpg" width="100" />
-  <img src="git-assets/App 1.jpg" width="100" />
-  <img src="git-assets/App 2.jpg" width="100" />
+  <img src="git-assets/App 0.jpg" width="32%" />
+  <img src="git-assets/App 1.jpg" width="32%" />
+  <img src="git-assets/App 2.jpg" width="32%" />
 </p>
 
 ### Hardware Assembly
