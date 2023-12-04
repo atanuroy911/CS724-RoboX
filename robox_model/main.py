@@ -1,6 +1,5 @@
 # import all the userdefind packages
 from initializer import Initializer
-from chatBots import predictResponse
 from textToSpeech import textToSpeech
 from chatBot import predictAnswer
 

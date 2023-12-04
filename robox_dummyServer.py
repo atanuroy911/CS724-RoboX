@@ -4,7 +4,6 @@ import cv2
 
 # import all the userdefind packages
 from init2 import initialize
-# from chatBots import predictResponse
 from textToSpeech import textToSpeech
 from predict2 import predictAnswer
 
