@@ -172,8 +172,6 @@ def stop():
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.LOW)
-    # textToSpeech("Stopping")
-
 
 # Use threading event for signaling
 stop_event = threading.Event()
@@ -230,8 +228,6 @@ def move_backward(speed):
     GPIO.output(IN4, GPIO.HIGH)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    # textToSpeech("Moving backward at speed " + str(speed))
-
 
 def turn_right(speed):
     stop_event.set()  # Set the event flag to signal the thread to stop
@@ -241,7 +237,6 @@ def turn_right(speed):
     GPIO.output(IN4, GPIO.HIGH)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    # textToSpeech("Turning Right")
 
 
 def turn_left(speed):
@@ -252,17 +247,10 @@ def turn_left(speed):
     GPIO.output(IN4, GPIO.LOW)
     pwm_a.start(speed)
     pwm_b.start(speed)
-    # textToSpeech("Turning Left")
 
 def prompt(user_query):
-
-    # TODO take this as user voice input
-
     print("You : ", user_query)
 
-    # sending user input to predict answer using h5 model
-    # answer = predictAnswer(initializer_obj.labelEncoder,initializer_obj.tokenizer,
-        # initializer_obj.interpreter,initializer_obj.responses,user_query)
     # sending user input to predict chatbot response using tflite
     answer = predictAnswer(tokenizer, labelEncoder, responses, user_query)
     

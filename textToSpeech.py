@@ -7,7 +7,6 @@ def textToSpeech(text):
     # -g for word gap so that word will be clear
     # -v europe/hr
     speechCommand = "espeak -v en-us+f3 -s 150 '%s'" % (text)
-    print("speech command---> ",speechCommand)
     os.system(speechCommand)
     
 
